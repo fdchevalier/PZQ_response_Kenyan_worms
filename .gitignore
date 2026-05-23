@@ -1,0 +1,7 @@
+.ipynb_checkpoints/
+.log/
+.bin/
+data/**
+status/
+results/
+graphs/
