@@ -1,9 +1,9 @@
 #!/usr/bin/env Rscript
 # Title: lab_mvt_analysis.R
-# Version: 1.1
+# Version: 1.2
 # Author: Frédéric CHEVALIER <fcheval@txbiomed.org>
 # Created in: 2022-08-20
-# Modified in: 2026-07-06
+# Modified in: 2026-07-07
 # Licence: GPL v3
 
 
@@ -20,6 +20,7 @@
 # Versions #
 #==========#
 
+# v1.2 - 2026-07-07: add save plot function
 # v1.1 - 2026-07-06: change movement normalization / remove legend
 # v1.0 - 2026-05-26: rewrite to focus on PZQ only
 # v0.0 - 2022-08-20: creation
@@ -37,11 +38,19 @@ suppressMessages({
 
 
 #===========#
-# Variables #
+# Functions #
 #===========#
 
 # Working directory
 setwd(file.path(getwd(), "scripts"))
+
+source("functions/save_plot.R")
+
+
+
+#===========#
+# Variables #
+#===========#
 
 # Folders
 data_fd  <- "../data/"
@@ -97,7 +106,7 @@ if( ! dir.exists(graph_fd)) { dir.create(graph_fd, recursive = TRUE) }
 
 gp_pc <- unique(mvt[, 2]) %>% paste0(., "%")
 
-pdf(paste0(graph_fd, "Fig. 3 - movement_genotype.pdf"), width = 3, height = 4)
+save_plot(paste0(graph_fd, "Fig. 3 - movement_genotype"), width = 3, height = 4)
 # par(mar = c(4, 4, 2.1, 0) + 0.1)
 par(mar = c(4, 4, 0, 0) + 0.1)
 pch <- 16
@@ -120,5 +129,5 @@ for (i in 1:length(gp_pc)) segments(i - x_diff, par("usr")[3], i + x_diff, , lwd
 # mid_x <- grconvertX(0.5, from = "ndc", to = "user")
 # legend(mid_x, par("usr")[4], legend = c("PZQ-ER", "PQZ-ES", "ND") , col = c("red", "blue", "black"), pch = pch, bty = "n", horiz = TRUE, xjust = 0.4, yjust = -0.2, xpd = TRUE)
 
-dev.off()
+save_plot(off = TRUE)
 
