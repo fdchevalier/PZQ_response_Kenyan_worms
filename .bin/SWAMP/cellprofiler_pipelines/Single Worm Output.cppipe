@@ -1,0 +1,204 @@
+CellProfiler Pipeline: http://www.cellprofiler.org
+Version:5
+DateRevision:407
+GitHash:
+ModuleCount:11
+HasImagePlaneDetails:False
+
+Images:[module_num:1|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['To begin creating your workspace, use the Images module to compile a list of files and/or folders that you want to analyze. You can also specify a set of rules to include only the desired files in your selected folders.', '']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    :
+    Filter images?:No filtering
+    Select the rule criteria:or (extension does isimage)
+
+Metadata:[module_num:2|svn_version:'Unknown'|variable_revision_number:6|show_window:False|notes:['The Metadata module optionally allows you to extract information describing your images (i.e, metadata) which will be stored along with your measurements. This information can be contained in the file name and/or location, or in an external file.', '']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Extract metadata?:Yes
+    Metadata data type:Text
+    Metadata types:{}
+    Extraction method count:1
+    Metadata extraction method:Extract from file/folder names
+    Metadata source:File name
+    Regular expression to extract from file name:^(?P<Time>[0-9]+).*(tif|png)
+    Regular expression to extract from folder name:.*[\\/](?P<Number>.*)
+    Extract metadata from:All images
+    Select the filtering criteria:and (file does contain ".bmp")
+    Metadata file location:Default Input Folder sub-folder|Documents\\ExampleUntangleWorms
+    Match file and image metadata:[{'Image Metadata': u'Series', 'CSV Metadata': u'PrevRawData'}]
+    Use case insensitive matching?:No
+    Metadata file name:RawData - Sheet1.csv
+    Does cached metadata exist?:No
+
+NamesAndTypes:[module_num:3|svn_version:'Unknown'|variable_revision_number:8|show_window:False|notes:['The NamesAndTypes module allows you to assign a meaningful name to each image by which other modules will refer to it.', '']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Assign a name to:Images matching rules
+    Select the image type:Grayscale image
+    Name to assign these images:RawData
+    Match metadata:[{u'RawDataMask': None, u'RawDataImage': None}]
+    Image set matching method:Order
+    Set intensity range from:Image bit-depth
+    Assignments count:2
+    Single images count:0
+    Maximum intensity:255.0
+    Process as 3D?:No
+    Relative pixel spacing in X:1.0
+    Relative pixel spacing in Y:1.0
+    Relative pixel spacing in Z:1.0
+    Select the rule criteria:or (file doesnot contain "_")
+    Name to assign these images:RawDataImage
+    Name to assign these objects:Cell
+    Select the image type:Color image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+    Select the rule criteria:or (file does contain "_")
+    Name to assign these images:RawDataMask
+    Name to assign these objects:Cell
+    Select the image type:Color image
+    Set intensity range from:Image metadata
+    Maximum intensity:255.0
+
+Groups:[module_num:4|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['The Groups module optionally allows you to split your list of images into image subsets (groups) which will be processed independently of each other. Examples of groupings include screening batches, microtiter plates, time-lapse movies, etc.', '']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Do you want to group your images?:Yes
+    grouping metadata count:1
+    Metadata category:Frame
+
+ColorToGray:[module_num:5|svn_version:'Unknown'|variable_revision_number:4|show_window:True|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:True]
+    Select the input image:RawDataImage
+    Conversion method:Combine
+    Image type:RGB
+    Name the output image:RawDataImage_GS
+    Relative weight of the red channel:1.0
+    Relative weight of the green channel:1.0
+    Relative weight of the blue channel:1.0
+    Convert red to gray?:Yes
+    Name the output image:OrigRed
+    Convert green to gray?:Yes
+    Name the output image:OrigGreen
+    Convert blue to gray?:Yes
+    Name the output image:OrigBlue
+    Convert hue to gray?:Yes
+    Name the output image:OrigHue
+    Convert saturation to gray?:Yes
+    Name the output image:OrigSaturation
+    Convert value to gray?:Yes
+    Name the output image:OrigValue
+    Channel count:1
+    Channel number:1
+    Relative weight of the channel:1.0
+    Image name:Channel1
+
+ColorToGray:[module_num:6|svn_version:'Unknown'|variable_revision_number:4|show_window:True|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:True]
+    Select the input image:RawDataMask
+    Conversion method:Combine
+    Image type:RGB
+    Name the output image:RawDataMask_GS
+    Relative weight of the red channel:1.0
+    Relative weight of the green channel:1.0
+    Relative weight of the blue channel:1.0
+    Convert red to gray?:Yes
+    Name the output image:OrigRed
+    Convert green to gray?:Yes
+    Name the output image:OrigGreen
+    Convert blue to gray?:Yes
+    Name the output image:OrigBlue
+    Convert hue to gray?:Yes
+    Name the output image:OrigHue
+    Convert saturation to gray?:Yes
+    Name the output image:OrigSaturation
+    Convert value to gray?:Yes
+    Name the output image:OrigValue
+    Channel count:1
+    Channel number:1
+    Relative weight of the channel:1.0
+    Image name:Channel1
+
+IdentifyPrimaryObjects:[module_num:7|svn_version:'Unknown'|variable_revision_number:14|show_window:True|notes:['Identifying the wells to use as objects to define the grid ']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the input image:RawDataMask_GS
+    Name the primary objects to be identified:WellsforGrid
+    Typical diameter of objects, in pixel units (Min,Max):70,125
+    Discard objects outside the diameter range?:Yes
+    Discard objects touching the border of the image?:Yes
+    Method to distinguish clumped objects:Intensity
+    Method to draw dividing lines between clumped objects:Intensity
+    Size of smoothing filter:10
+    Suppress local maxima that are closer than this minimum allowed distance:7.0
+    Speed up by using lower-resolution image to find local maxima?:Yes
+    Fill holes in identified objects?:After both thresholding and declumping
+    Automatically calculate size of smoothing filter for declumping?:Yes
+    Automatically calculate minimum allowed distance between local maxima?:Yes
+    Handling of objects if excessive number of objects identified:Continue
+    Maximum number of objects:500
+    Display accepted local maxima?:No
+    Select maxima color:Blue
+    Use advanced settings?:Yes
+    Threshold setting version:12
+    Threshold strategy:Global
+    Thresholding method:Minimum Cross-Entropy
+    Threshold smoothing scale:1.3488
+    Threshold correction factor:1.0
+    Lower and upper bounds on threshold:0.1,1.0
+    Manual threshold:0.0
+    Select the measurement to threshold with:None
+    Two-class or three-class thresholding?:Two classes
+    Log transform before thresholding?:No
+    Assign pixels in the middle intensity class to the foreground or the background?:Foreground
+    Size of adaptive window:50
+    Lower outlier fraction:0.05
+    Upper outlier fraction:0.05
+    Averaging method:Mean
+    Variance method:Standard deviation
+    # of deviations:2.0
+    Thresholding method:Otsu
+
+DefineGrid:[module_num:8|svn_version:'Unknown'|variable_revision_number:1|show_window:True|notes:['Using the previous modules objects to generate a grid, and outputing over edged image to prepare for worm identification of highlighted worms. Using the grid will number the worms and get rid of some background.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Name the grid:Grid
+    Number of rows:8
+    Number of columns:12
+    Location of the first spot:Top right
+    Order of the spots:Columns
+    Define a grid for which cycle?:Once
+    Select the method to define the grid:Automatic
+    Select the previously identified objects:WellsforGrid
+    Select the method to define the grid manually:Coordinates
+    Select the image to display when drawing:None
+    Coordinates of the first cell:298,258
+    Row number of the first cell:1
+    Column number of the first cell:1
+    Coordinates of the second cell:1300,820
+    Row number of the second cell:6
+    Column number of the second cell:10
+    Retain an image of the grid?:Yes
+    Name the output image:GridedEdgedWorms
+    Select the image on which to display the grid:RawDataImage
+    Use a previous grid if gridding fails?:No
+
+IdentifyObjectsInGrid:[module_num:9|svn_version:'Unknown'|variable_revision_number:3|show_window:True|notes:['']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:True]
+    Select the defined grid:Grid
+    Name the objects to be identified:GridWells
+    Select object shapes and locations:Rectangle Forced Location
+    Specify the circle diameter automatically?:Automatic
+    Circle diameter:70
+    Select the guiding objects:WellsforGrid
+
+SaveCroppedObjects:[module_num:10|svn_version:'Unknown'|variable_revision_number:2|show_window:True|notes:['Saves a cropped image of each worm in its well for analysis using RandIndex. Uses GridWells as circle outline to remove more background.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:True]
+    Objects:GridWells
+    Directory:Default Output Folder sub-folder|\g<Time>/
+    Saved file format:png
+    Do you want to save cropped images or object masks?:Images
+    Image:RawDataImage_GS
+
+SaveImages:[module_num:11|svn_version:'Unknown'|variable_revision_number:15|show_window:True|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+    Select the type of image to save:Image
+    Select the image to save:GridedEdgedWorms
+    Select method for constructing file names:From image filename
+    Select image name for file prefix:RawDataImage
+    Enter single file name:OrigBlue
+    Number of digits:4
+    Append a suffix to the image file name?:No
+    Text to append to the image name:
+    Saved file format:jpeg
+    Output file location:Default Output Folder|
+    Image bit depth:8-bit integer
+    Overwrite existing files without warning?:No
+    When to save:Every cycle
+    Record the file and path information to the saved image?:No
+    Create subfolders in the output folder?:No
+    Base image folder:Elsewhere...|
+    How to save the series:T (Time)
